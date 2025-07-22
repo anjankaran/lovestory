@@ -459,7 +459,7 @@
   const hlwInputContainer = document.getElementById("hlw-input-container");
   const goToStory1Btn = document.getElementById("goToStory1");
   const dateInput = document.getElementById("dateInput");
-  const actualRevealTime = new Date("2025-07-22T23:54:00"); // 22 July 10 PM
+  const actualRevealTime = new Date("2025-07-22T23:50:00"); // 22 July 10 PM
 
   function createMessage(text, sender = "bot") {
     const p = document.createElement("p");
@@ -528,7 +528,7 @@ let attempts = 0;
   const oldError = document.getElementById("date-error");
   if (oldError) oldError.remove();
 
-  if (selectedDate === "2023-07-18") {
+  if (selectedDate === "2018-07-18") {
     createMessage("You're right! Thank you for remembering ❤️");
     setTimeout(() => {
       createMessage("Let's go back to that day together...");
@@ -702,6 +702,7 @@ but as the woman my heart chooses every day, forever? as the love I choose in ev
   </div>
 </div>
 
+
 <script>
    const countdownElement = document.getElementById('countdown');
   const countdownMsg = document.getElementById('countdownMsg');
@@ -743,14 +744,9 @@ but as the woman my heart chooses every day, forever? as the love I choose in ev
   const response = document.getElementById('responseInput').value.trim().toLowerCase();
   
   if (response === "yes") {
-    document.body.innerHTML = `
-      <div class="screen love-bg" style="display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
-        <h2 style="color:white;">I love you so much, my queen 👑</h2>
-        <p style="color:white; margin-top: 10px;">You've just entered my heart forever ❤️</p>
-        <button class="btn" style="margin-top: 20px;" onclick="goTo('story3')">Enter to My Heart</button>
-      </div>
-    `;
-  } else if (response === "no") {
+  goTo('yes-screen');
+}
+else if (response === "no") {
     document.body.innerHTML = `
       <div class="screen love-bg" style="display:flex; align-items:center; justify-content:center; flex-direction:column;">
         <h2 style="color: white;">Thank you for being part of this story 💔</h2>
@@ -764,6 +760,16 @@ but as the woman my heart chooses every day, forever? as the love I choose in ev
 }
 </script>
 
+<!-- Story 3: yes screen -->
+<div class="screen love-bg" id="yes-screen" style="display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+  <h2 style="color:white;">😍😘I love you so much, my queen 👑</h2>
+  <p style="color:white; margin-top: 10px;">You've just entered my heart forever ❤️
+  I promise to love you endlessly, hold your hand through every storm, and cherish every moment with you. 💍
+  </p>
+  <button class="btn" style="margin-top: 20px;" onclick="goTo('story3')">Enter to My Heart</button>
+</div>
+
+	
 
 <!-- Story 3: First Meet -->
 <div class="screen romantic-bg" id="story3">
@@ -863,12 +869,13 @@ function toggleCaption(photoDiv) {
   <div class="letter-wrapper">
     <div class="letter-box">
       <div id="typed-letter">
-        <div class="type-line">My dearest love,</div>
-        <div class="type-line">From the day we met, my life has been filled with colors I never knew existed.</div>
-        <div class="type-line">You have brought joy, laughter, and endless love into my world.</div>
-        <div class="type-line">Every smile of yours brightens even my darkest days.</div>
-        <div class="type-line">I am grateful for every moment, every hug, every kiss.</div>
-        <div class="type-line">Forever yours, with all my heart ❤️</div>
+        <div class="type-line">🌹My Swetest love🌹,</div>
+        <div class="type-line">Today marks not just a date, but a journey — of us, of everything we've been through, Every smile, every tear, every moment — they all brought us closer, made us stronger, made us “us</div>
+        <div class="type-line">You are not just a part of my life — you are the life in it.😍 You’ve been my calm in chaos, my light in the darkest nights, and my strength when I was weak. Loving you has been the most beautiful feeling I’ve ever known.</div>
+        <div class="type-line">On this special day, I just want to say: Thank you for loving me.</div>
+        <div class="type-line">Thank you caring me, supporting me.💖</div>
+        <div class="type-line">Happy Anniversary, my heartbeat.
+Forever is just the beginning with you ❤️</div>
       </div>
     </div>
   </div>
@@ -892,7 +899,7 @@ function toggleCaption(photoDiv) {
 </div>
 
 <script>
-  const screens = ['welcome','story1','story2','story3','story4','slideshow','main','letter','home'];
+  const screens = ['welcome','story1','story2','yes-screen','story3','story4','slideshow','main','letter','home'];
 
   function goTo(id) {
     screens.forEach(s => {
