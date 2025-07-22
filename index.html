@@ -442,6 +442,10 @@
   }
   setInterval(createHeart, 500);
 </script>
+<audio id="bg-music" autoplay loop style="display: none;">
+  <source src="love anniversary song.mp3 type="audio/mpeg">
+</audio>
+
 
 <!-- Welcome -->
 <div class="screen welcome-bg" id="welcome" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
@@ -459,7 +463,6 @@
   const hlwInputContainer = document.getElementById("hlw-input-container");
   const goToStory1Btn = document.getElementById("goToStory1");
   const dateInput = document.getElementById("dateInput");
-  const actualRevealTime = new Date("2025-07-22T23:56:00"); // 22 July 10 PM
 
   function createMessage(text, sender = "bot") {
     const p = document.createElement("p");
@@ -471,40 +474,8 @@
     welcomechatBox.scrollTop = welcomechatBox.scrollHeight;
   }
 
-  function showCountdown() {
-    const countdownDiv = document.createElement("div");
-    countdownDiv.id = "countdown";
-    countdownDiv.style.marginTop = "10px";
-    countdownDiv.style.fontWeight = "bold";
-    countdownDiv.style.fontSize = "18px";
-    countdownDiv.style.color = "#fff";
-    countdownDiv.style.textAlign = "center";
-    welcomechatBox.appendChild(countdownDiv);
+  let attempts = 0;
 
-    function updateCountdown() {
-      const now = new Date();
-      const diff = actualRevealTime - now;
-      if (diff <= 0) {
-        clearInterval(interval);
-        countdownDiv.remove();
-        createMessage("The real date was: 18 july 2018 ❤️");
-        setTimeout(() => {
-          createMessage("Do you want to go back to that day..?");
-          goToStory1Btn.style.display = "inline-block";
-        }, 1500);
-      } else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        countdownDiv.textContent = `⏳ Please wait: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }
-    }
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-  }
-let attempts = 0;
   function nextStep(step) {
     switch(step) {
       case 1:
@@ -520,50 +491,54 @@ let attempts = 0;
             createMessage("Choose that date ❤️");
             dateInput.style.display = "inline-block";
 
-          dateInput.onchange = () => {
-  const selectedDate = dateInput.value;
-  dateInput.style.display = "none";
+            dateInput.onchange = () => {
+              const selectedDate = dateInput.value;
+              dateInput.style.display = "none";
 
-  // Remove previous error message if any
-  const oldError = document.getElementById("date-error");
-  if (oldError) oldError.remove();
+              // Remove previous error message if any
+              const oldError = document.getElementById("date-error");
+              if (oldError) oldError.remove();
 
-  if (selectedDate === "2018-07-18") {
-    createMessage("You're right! Thank you for remembering ❤️");
-    setTimeout(() => {
-      createMessage("Let's go back to that day together...");
-      goToStory1Btn.style.display = "inline-block";
-    }, 1500);
-  } else {
-    attempts++;
-    if (attempts < 3) {
-      const errorMsg = document.createElement("p");
-      errorMsg.id = "date-error";
-      errorMsg.textContent = "❌ Wrong date. Please try again.";
-      errorMsg.style.color = "red";
-      errorMsg.style.fontWeight = "bold";
-      errorMsg.style.textAlign = "center";
-      welcomechatBox.appendChild(errorMsg);
+              if (selectedDate === "2018-07-18") {
+                createMessage("You're right! Thank you for remembering ❤️");
+                setTimeout(() => {
+                  createMessage("Let's go back to that day together...");
+                  goToStory1Btn.style.display = "inline-block";
+                }, 1500);
+              } else {
+                attempts++;
+                if (attempts < 3) {
+                  const errorMsg = document.createElement("p");
+                  errorMsg.id = "date-error";
+                  errorMsg.textContent = "❌ Wrong date. Please try again.";
+                  errorMsg.style.color = "red";
+                  errorMsg.style.fontWeight = "bold";
+                  errorMsg.style.textAlign = "center";
+                  welcomechatBox.appendChild(errorMsg);
 
-      setTimeout(() => {
-        dateInput.value = ""; // Clear previous input
-        dateInput.style.display = "inline-block";
-      }, 1500);
-    } else {
-      createMessage("Oops 😅 The date you gave is not right.");
-      setTimeout(() => {
-        createMessage("Let's wait for the actual moment to reveal it 💫");
-        showCountdown();
-      }, 1000);
-    }
-  }
-};
-
+                  setTimeout(() => {
+                    dateInput.value = "";
+                    dateInput.style.display = "inline-block";
+                  }, 1500);
+                } else {
+                  createMessage("Oops 😅 The date you gave is not right.");
+                  setTimeout(() => {
+                    createMessage("The real date was: 18 July 2018 ❤️");
+                    setTimeout(() => {
+                      createMessage("Do you want to go back to that day..?");
+                      goToStory1Btn.style.display = "inline-block";
+                    }, 1500);
+                  }, 1000);
+                }
+              }
+            };
           }, 1500);
         }, 1000);
         break;
     }
   }
+
+
 
   function showHlwInput() {
     hlwInputContainer.style.display = "block";
@@ -601,126 +576,14 @@ let attempts = 0;
 
 
 <script>
-  const messages = [
+   const messages = [
     { type: "date", text: "18 July, 2018 at 7:52PM" },
     { text: "Hi....", sender: "sent" },
 	{ type: "date", text: "18 July, 2018 at 10:04PM" },
     { text: "Hlw", sender: "received" },
 	{ type: "date", text: "19 July, 2018 at 12:01AM" },
     { text: "Good night...have a sweet dream", sender: "sent" },
-    { type: "date", text: "19 July, 2018 at 12:45PM" },
-	{ text: "Hi....", sender: "sent" },
-	{ type: "date", text: "19 July, 2018 at 07:52PM" },
-	{ text: "Good evening....", sender: "sent" },
-	{ type: "date", text: "20 July, 2018 at 08:55AM" },
-	{ text: "Hey...", sender: "sent" },
-	{ type: "date", text: "21 July, 2018 at 06:22AM" },
-	{ text: "Hi...", sender: "sent" },
-	{ text: "Good morning", sender: "sent" },
-    { text: "Mrng", sender: "received" },
-    { text: "kakhan uthe6o..?", sender: "sent" },
-    { text: "5:50 am", sender: "received" },
-	{ text: "ooo.... darun..", sender: "sent" },
-    { text: "U", sender: "received" },
-	{ text: "ami to.. ai uthlam go..", sender: "sent" },
-	{ text: "ki kor6o..?", sender: "sent" },
-    { text: "Suye6i", sender: "received" },
-	{ text: "tuition aro a6e nki..?", sender: "sent" },
-    { text: "Na", sender: "received" },
-	{ text: "tahole ato tratari uthle j...?", sender: "sent" },
-    { text: "Mni", sender: "received" },
-	{ text: "Tmi kise pro	", sender: "received" },
-	{ text: "ami..college..??", sender: "sent" },
-	{ text: "2mi.??", sender: "sent" },
-    { text: "Scl", sender: "received" },
-	{ text: "Kon year tmr", sender: "received" },
-	{ text: "3rd yr..", sender: "sent" },
-	{ text: "2mr kon class...", sender: "sent" },
-	{ text: "C.H.G", sender: "received" },
-	{ text: "2mr kon clge", sender: "received" },
-	{ text: "2mr kon class.? thik bujhlam na", sender: "sent" },
-	{ text: "2mr kon clg name ta blo", sender: "received" },
-	{ text: "bajkul milani mahavidyalaya", sender: "sent" },
-	{ text: "2mr kon school..?", sender: "sent" },
-	{ text: "contai hindu girls", sender: "received" },
-	{ text: "oh vlo", sender: "sent" },
-	{ text: "I know", sender: "received" },
-	{ text: "hm vry gd, ghum thke uthoni nki..?", sender: "sent" },
-	{ text: "uthe6lm abr suye pre6i", sender: "received" },
-	{ text: "gd.. 2mi regular 5.30 uthe poro nki..?", sender: "sent" },
-	{ text: "na na ", sender: "received" },
-	{ text: "ohh, aj tahole ki mne kre..?", sender: "sent" },
-	{ text: "mni i66e hlo", sender: "received" },
-	{ text: "ojai hok... vlo.. i6e kore o trtari uthte paro..", sender: "sent" },
-	{ text: "ami to i6e hleo uthi na..", sender: "sent" },
-	{ text: "hahaha", sender: "received" },
-	{ text: "u r grt", sender: "received" },
-	{ text: "no..i m not..u..!!", sender: "sent" },
-	{ text: "yah i know, i'm grt", sender: "received" },
-	{ text: "jara skale uthte pare tarai great", sender: "sent" },
-	{ text: "according to me", sender: "sent" },
-	{ text: "amr sb frndra amr thkeo tara tari uthe & daily", sender: "received" },
-	{ text: "skale utha ta khub kathin amr k6e", sender: "sent" },
-	{ text: "haha", sender: "received" },
-	{ text: "2mr frndra.. to sb genius..", sender: "sent" },
-	{ text: "ki kore j uthe  pore..?", sender: "sent" },
-	{ text: "hmmm obviously. u r 100% r8.", sender: "received" },
-	{ text: "tmi jmn ghum thk otho amra o tmn e uthi... haha.", sender: "received" },
-	{ text: "oo.. gd", sender: "sent" },
-	{ text: "to e janoto ajk ami aktu tratari uthe pore6i.. ato taratari khub kam uthi", sender: "sent" },
-	{ text: "bad.. very bad", sender: "received" },
-	{ text: "ok bye", sender: "received" },
-	{ text: "kno...?", sender: "sent" },
-	{ text: "prbo akhn", sender: "received" },
-	{ text: "oo. ok then poro", sender: "sent" },
-	{ text: "hm", sender: "received" },
-	{ text: "very gd girl", sender: "sent" },
-	{ text: "i know that", sender: "received" },
-	{ type: "date", text: "21 July, 2018 at 11:05PM" },
-	{ text: "hi..", sender: "sent" },
-	{ text: "Hi2", sender: "received" },
-	{ text: "ei rate ki ami gopal var er glpo kr6i ble tmr mne hy?", sender: "received" },
-	{ text: "he he he ta thik.. but ki6utu kr6o??", sender: "sent" },
-	{ text: "has6o kno", sender: "received" },
-	{ text: "ei gan sun6i. tmi", sender: "received" },
-	{ text: "study kr6o bujhi??", sender: "sent" },
-	{ text: "hmmm fb er lekha gulo study kr6i", sender: "received" },
-	{ text: "oo. darun..", sender: "sent" },
-	{ text: "2mi bes sundr katha bolo kintu..", sender: "sent" },
-	{ text: "ei rate manus kintu ank ki6u kore..", sender: "sent" },
-	{ text: "oh really!!!", sender: "received" },
-	{ text: "hmm.. satyi", sender: "sent" },
-	{ text: "hmm jmn tmi kro", sender: "received" },
-	{ text: "hmm sbai ble ba", sender: "received" },
-	{ text: "aj rain kmn hy6e?", sender: "sent" },
-	{ text: "gd", sender: "received" },
-	{ text: "ok gd ni8", sender: "received" },
-	{ text: "ghumiye jabe??", sender: "sent" },
-	{ text: "kal tuition a6e bujhi..??", sender: "sent" },
-	{ text: "na", sender: "received" },
-	{ text: "na 2mi ai time ghumao??", sender: "sent" },
-	{ text: "o ami jani tai ask kr6i..?", sender: "sent" },
-	{ text: "na na post share krbo", sender: "received" },
-	{ text: "tahole online thakbe", sender: "sent" },
-	{ text: "r ki jano tmi", sender: "received" },
-	{ text: "hm", sender: "received" },
-	{ text: "post share krte krte katha bolo..", sender: "sent" },
-	{ text: "ami..?ki6ui jani na aituku jani .. 2mi..", sender: "sent" },
-	{ text: "ok bt ans dite late hbe", sender: "received" },
-	{ text: "ami ki", sender: "received" },
-	{ text: "12 poro.. math 2mr fav sub, khub valo kotha bolo . post share koro.. taratari ghum thke utho", sender: "sent" },
-	{ text: "ok.. no problem.. ami wait krbo.. manage kore nbo..", sender: "sent" },
-	{ text: "ok. as ur wish", sender: "received" },
-	{ text: "hmm", sender: "sent" },
-	{ text: "2mr gf nei?", sender: "received" },
-	{ text: "no.. kno..?", sender: "sent" },
-	{ text: "mni", sender: "received" },
-	{ text: "2mi puro bkr tahole", sender: "received" },
-	{ text: "he he he", sender: "sent" },
-	{ text: "jadi boli a6e ..", sender: "sent" },
-	{ text: "tbe gf na my lifepartner ..", sender: "sent" },
-	{ text: "k", sender: "received" },
-	{ text: "tumi", sender: "sent" }
+	{ text: "2mr kon clge", sender: "received" }
   ];	
   const chatBox = document.getElementById("chatBox");
 
@@ -784,7 +647,7 @@ let attempts = 0;
   <div id="countdownMsg" class="fade-in">
     <p>Just wait a little more🕛... something special is waiting 💖 </p>
     <p id="countdown" style="font-size: 1.2rem;"></p>
-    
+    <button id="skipBtn" class="btn" style="margin-top:10px;" onclick="showProposal()">⏩ Skip</button>
   </div>
 
   <!-- Proposal Content (Initially Hidden) -->
@@ -846,7 +709,12 @@ but as the woman my heart chooses every day, forever? as the love I choose in ev
   updateCountdown();
 
  
-
+  // Skip countdown (for testing)
+  function showProposal() {
+    proposalTitle.innerText = "Happy sixth love anniversay💖💍 My Love";
+    proposalContent.style.display = "block";
+    countdownMsg.style.display = "none";
+  }
   function handleProposal() {
   const response = document.getElementById('responseInput').value.trim().toLowerCase();
   
