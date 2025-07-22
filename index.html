@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Anniversary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <title>Our Love Story</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       overflow-x: hidden;
     }
     .heart {
@@ -17,6 +17,7 @@
       color: red;
       animation: float 8s linear infinite;
       font-size: 20px;
+      z-index: 999;
     }
     @keyframes float {
       0% { transform: translateY(0) scale(1); opacity: 1; }
@@ -28,13 +29,71 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background-color: #fff0f5;
       text-align: center;
       padding: 20px;
-      animation: fadeIn 2s;
     }
+	.slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      flex-direction: column;
+    }
+	 .slideshow img {
+      max-width: 80%;
+      max-height: 70vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px white;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-in-out both;
+    }
+    .zoom-in {
+      animation: zoomIn 1s ease-in-out both;
+    }
+    .slide-in {
+      animation: slideIn 1s ease-out both;
+    }
+	  @keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .welcome-bg {
+      background: linear-gradient(to right, #d7d2cc, #304352);
+      color: white;
+    }
+    .romantic-bg {
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    }
+    .dark-bg {
+      background: #1e1e2f;
+      color: #f8c8dc;
+    }
+	
+	.love-bg {
+	 background: linear-gradient(to bottom, #1a002a, #3a0f47);
+	 color: #f8c8dc;
+	 }
     .screen h1, .screen h2, .screen h3, .screen p {
-      color: #d63384;
+      color: inherit;
     }
     .btn {
       margin-top: 30px;
@@ -50,24 +109,19 @@
     .btn:hover {
       background: #ff3e6c;
     }
-    .slideshow {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.8);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      flex-direction: column;
+    .chat-scroll {
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 2px dashed #ff91aa;
+      border-radius: 15px;
+      padding: 10px;
+      background: #fffafc;
+      width: 90%;
+      max-width: 400px;
     }
-    .slideshow img {
-      max-width: 80%;
-      max-height: 70vh;
-      border-radius: 20px;
-      box-shadow: 0 0 20px white;
+    .chat-scroll img {
+      width: 100%;
+      border-radius: 10px;
     }
     .gallery {
       display: flex;
@@ -86,29 +140,6 @@
     .gallery img:hover {
       transform: scale(1.05);
     }
-    .memory {
-      margin: 40px 0;
-      padding: 20px;
-      background: #ffe6f0;
-      border-radius: 15px;
-      max-width: 600px;
-      text-align: left;
-      color: #6b183b;
-    }
-    .chat-scroll {
-      max-height: 80vh;
-      overflow-y: auto;
-      border: 2px dashed #ff91aa;
-      border-radius: 15px;
-      padding: 10px;
-      background: #fffafc;
-      width: 90%;
-      max-width: 400px;
-    }
-    .chat-scroll img {
-      width: 100%;
-      border-radius: 10px;
-    }
     .final-message {
       font-size: 1.4rem;
       color: #343a40;
@@ -118,10 +149,284 @@
       display: inline-block;
       margin-top: 30px;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+	
+	
+  .chat-container {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #0084ff;
+    color: white;
+  }
+  .chat-header img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .chat-box {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .message {
+    max-width: 70%;
+    margin-bottom: 6px;
+    padding: 5px 12px;
+    border-radius: 18px;
+    font-size: 13px;
+    line-height: 1.4;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 0.4s forwards;
+    display: flex;
+    align-items: flex-end;
+  }
+  .sent {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: white;
+    border-bottom-right-radius: 5px;
+    justify-content: flex-end;
+  }
+  .received {
+    align-self: flex-start;
+    background-color: #f0f0f0;
+    color: black;
+    border-bottom-left-radius: 5px;
+    justify-content: flex-start;
+  }
+  .msg-content {
+    background: inherit;
+    padding: inherit;
+    border-radius: inherit;
+    color: inherit;
+  }
+  .date-stamp {
+    align-self: center;
+    background: #d0d0d0;
+    color: #444;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin: 12px 0;
+    opacity: 0;
+    animation: fadeIn 0.4s forwards;
+  }
+  .dots::after {
+    content: '...';
+    animation: blink 1s steps(1) infinite;
+  }
+   @keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  .fade-in {
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  
     }
+    .nav-screen {
+      background: #fff0f5;
+      color: #333;
+    }
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .nav-links button {
+      background: #ffb3c1;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+	
+	
+
+@keyframes writeLine {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.corner-rose {
+  font-size: 50px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  transform: rotate(-20deg);
+}
+
+/* Rose Petal Background */
+.petals-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  font-size: 24px;
+  animation: fallPetal linear infinite;
+  color: #ff3366;
+  opacity: 0.8;
+}
+
+@keyframes fallPetal {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+.slide {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      padding: 12px 24px;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+.letter-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70vh;
+  padding: 1rem;
+}
+
+.letter-box {
+  background: #fff0f5;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+  border: 2px solid #ff99cc;
+}
+
+
+    #typed-letter {
+	font-family: 'Dancing Script', cursive;
+      max-width: 700px;
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+      white-space: pre-wrap;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .type-line {
+      opacity: 0;
+    }
+  .btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #f88;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      z-index: 2;
+    }
+	
+	.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.photo {
+  position: relative;
+  width: 220px;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.caption {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background: rgba(255, 192, 203, 0.7); /* light pink transparent */
+  color: #2b2b2b;
+  font-size: 14px;
+  font-weight: 500;
+  display: none; /* Hidden by default */
+  transition: opacity 0.3s ease;
+}
+
+/* Show caption on hover */
+.photo:hover .caption {
+  display: block;
+}
+
+
   </style>
 </head>
 <body>
@@ -139,89 +444,526 @@
 </script>
 
 <!-- Welcome -->
-<div class="screen" id="welcome" style="display:flex">
-  <h1>Happy Anniversary My Love ❤️</h1>
-  <button class="btn" onclick="goTo('story1')">Enter</button>
+<div class="screen welcome-bg" id="welcome" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+  <h1 class="slide-in" id="greeting" style="margin-bottom: 10px;">Hi 👋</h1>
+  <div id="welcome-chat-box" style="margin-top: 20px; max-width: 90%; text-align: center;"></div>
+  <div id="hlw-input-container" style="margin-top: 20px; display: none; text-align: center;">
+    <input type="text" id="hlwInput" placeholder="Type 'Hlw' to continue" style="padding: 12px 24px; font-size: 18px; border-radius: 30px; text-align: center; border: 1px solid #ccc;" />
+  </div>
+  <input type="date" id="dateInput" style="display:none; padding: 10px; border-radius: 10px; border: 1px solid #ccc; margin-top: 15px; text-align: center;" />
+  <button class="btn" id="goToStory1" style="display:none; margin-top: 20px;" onclick="goTo('story1')">Yes, take me there</button>
 </div>
 
+<script>
+  const welcomechatBox = document.getElementById("welcome-chat-box");
+  const hlwInputContainer = document.getElementById("hlw-input-container");
+  const goToStory1Btn = document.getElementById("goToStory1");
+  const dateInput = document.getElementById("dateInput");
+  const actualRevealTime = new Date("2025-07-22T23:54:00"); // 22 July 10 PM
+
+  function createMessage(text, sender = "bot") {
+    const p = document.createElement("p");
+    p.textContent = text;
+    p.classList.add("fade-in");
+    p.style.textAlign = "center";
+    p.style.margin = "5px 0";
+    welcomechatBox.appendChild(p);
+    welcomechatBox.scrollTop = welcomechatBox.scrollHeight;
+  }
+
+  function showCountdown() {
+    const countdownDiv = document.createElement("div");
+    countdownDiv.id = "countdown";
+    countdownDiv.style.marginTop = "10px";
+    countdownDiv.style.fontWeight = "bold";
+    countdownDiv.style.fontSize = "18px";
+    countdownDiv.style.color = "#fff";
+    countdownDiv.style.textAlign = "center";
+    welcomechatBox.appendChild(countdownDiv);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = actualRevealTime - now;
+      if (diff <= 0) {
+        clearInterval(interval);
+        countdownDiv.remove();
+        createMessage("The real date was: 18 july 2018 ❤️");
+        setTimeout(() => {
+          createMessage("Do you want to go back to that day..?");
+          goToStory1Btn.style.display = "inline-block";
+        }, 1500);
+      } else {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        countdownDiv.textContent = `⏳ Please wait: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }
+    }
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+  }
+let attempts = 0;
+  function nextStep(step) {
+    switch(step) {
+      case 1:
+        setTimeout(() => {
+          showHlwInput();
+        }, 1000);
+        break;
+
+      case 2:
+        setTimeout(() => {
+          createMessage("Do you remember the very first time you said 'hello' to me?");
+          setTimeout(() => {
+            createMessage("Choose that date ❤️");
+            dateInput.style.display = "inline-block";
+
+          dateInput.onchange = () => {
+  const selectedDate = dateInput.value;
+  dateInput.style.display = "none";
+
+  // Remove previous error message if any
+  const oldError = document.getElementById("date-error");
+  if (oldError) oldError.remove();
+
+  if (selectedDate === "2023-07-18") {
+    createMessage("You're right! Thank you for remembering ❤️");
+    setTimeout(() => {
+      createMessage("Let's go back to that day together...");
+      goToStory1Btn.style.display = "inline-block";
+    }, 1500);
+  } else {
+    attempts++;
+    if (attempts < 3) {
+      const errorMsg = document.createElement("p");
+      errorMsg.id = "date-error";
+      errorMsg.textContent = "❌ Wrong date. Please try again.";
+      errorMsg.style.color = "red";
+      errorMsg.style.fontWeight = "bold";
+      errorMsg.style.textAlign = "center";
+      welcomechatBox.appendChild(errorMsg);
+
+      setTimeout(() => {
+        dateInput.value = ""; // Clear previous input
+        dateInput.style.display = "inline-block";
+      }, 1500);
+    } else {
+      createMessage("Oops 😅 The date you gave is not right.");
+      setTimeout(() => {
+        createMessage("Let's wait for the actual moment to reveal it 💫");
+        showCountdown();
+      }, 1000);
+    }
+  }
+};
+
+          }, 1500);
+        }, 1000);
+        break;
+    }
+  }
+
+  function showHlwInput() {
+    hlwInputContainer.style.display = "block";
+    const hlwInput = document.getElementById("hlwInput");
+    hlwInput.focus();
+    hlwInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" && hlwInput.value.trim().toLowerCase() === "hlw") {
+        createMessage("Hlw😊", "user");
+        hlwInputContainer.style.display = "none";
+        nextStep(2);
+      }
+    });
+  }
+
+  window.onload = () => {
+    setTimeout(() => {
+      nextStep(1);
+    }, 1000);
+  };
+</script>
+
 <!-- Story 1: First Conversation -->
-<div class="screen" id="story1">
-  <h2>Our First Conversation</h2>
-  <div class="chat-scroll">
-    <img src="gallery/chat-screenshot.jpg" alt="Chat Screenshot" />
+<div class="screen romantic-bg" id="story1">
+  <h2 class="slide-in">Our First Conversation</h2>
+  <!-- Live Messenger Chat Starts Here -->
+<div class="chat-container fade-in" style="max-width: 100%; height: 120vh;">
+  <div class="chat-header">
+    <img src="mouli jana.jpg" alt="Her DP">
+    <div>Mouli Jana</div>
   </div>
-  <p>It all started here on Facebook Messenger... a simple message that turned into forever. 🥹</p>
+  <div class="chat-box" id="chatBox">
+    <!-- Messages appear here -->
+  </div>
+</div>
+
+
+<script>
+   const messages = [
+    { type: "date", text: "18 July, 2018 at 7:52PM" },
+    { text: "Hi....", sender: "sent" },
+	{ type: "date", text: "18 July, 2018 at 10:04PM" },
+    { text: "Hlw", sender: "received" },
+	{ type: "date", text: "19 July, 2018 at 12:01AM" },
+    { text: "Good night...have a sweet dream", sender: "sent" },
+	{ text: "2mr kon clge", sender: "received" }
+  ];	
+  const chatBox = document.getElementById("chatBox");
+
+  async function simulateChat() {
+    for (let msg of messages) {
+      if (msg.type === "date") {
+        const dateStamp = document.createElement("div");
+        dateStamp.className = "date-stamp";
+        dateStamp.innerText = msg.text;
+        chatBox.appendChild(dateStamp);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        await new Promise(r => setTimeout(r, 800));
+        continue;
+      }
+
+      const wrapper = document.createElement("div");
+      wrapper.className = `message ${msg.sender}`;
+
+      if (msg.sender === "received") {
+        wrapper.innerHTML = `
+          <img src="mouli jana.jpg" class="profile-pic" alt="DP" style="width: 24px; height: 24px; border-radius: 50%; margin-right: 6px;">
+          <div class="msg-content"><span class="dots"></span></div>`;
+      } else {
+        wrapper.innerHTML = `<div class="msg-content"><span class="dots"></span></div>`;
+      }
+
+      chatBox.appendChild(wrapper);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      await new Promise(r => setTimeout(r, 1000));
+
+      const msgContent = wrapper.querySelector('.msg-content');
+      msgContent.innerText = msg.text;
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+
+ function startMessengerChat() {
+  if (!window.messengerStarted) {
+    window.messengerStarted = true;
+    simulateChat();
+  }
+}
+
+</script>
+
+
+
+  <p class="zoom-in">It all started here on Facebook Messenger... a simple message that turned into forever. 🥹</p>
   <button class="btn" onclick="goTo('story2')">Next</button>
 </div>
 
 <!-- Story 2: Proposal -->
-<div class="screen" id="story2">
-  <h2>Proposal Day 💍</h2>
-  <p>I proposed to you on Telegram, on 23rd July 2019. Though the message is deleted, the memory lives forever. And you said YES! 💖</p>
-  <button class="btn" onclick="goTo('story3')">Next</button>
+<div class="screen love-bg" id="story2">
+  <h2 id="proposalTitle" class="slide-in">Surprise! 🎁</h2>
+
+
+  <!-- Countdown Message -->
+  <div id="countdownMsg" class="fade-in">
+    <p>Just wait a little more🕛... something special is waiting 💖 </p>
+    <p id="countdown" style="font-size: 1.2rem;"></p>
+    <button id="skipBtn" class="btn" style="margin-top:10px;" onclick="showProposal()">⏩ Skip</button>
+  </div>
+
+  <!-- Proposal Content (Initially Hidden) -->
+  <div id="proposalContent" style="display:none;">
+    <p class="zoom-in">Today, 23rd july, is the day I first proposed to you but the way which i  dont wanted to be</p>
+    <p class="fade-in">I sent a message on Telegram, then deleted it... but you saw it and said YES! 💖</p>
+    
+	<div class="heart-glow">❤️</div>
+<!-- Proposal Content (Initially Hidden) -->
+
+    <p class="slide-in">
+Six years ago, I asked you to be my girlfriend — led by your beautiful voice and attracted words. 
+But today, I ask you again — not just because you're the most beautiful woman I've ever seen, 
+but because of your heart, your kindness, your strength, your soul. 
+So this time, with everything I am, and everything I ever will be — will you be mine again, not just as my girlfriend, 
+but as the woman my heart chooses every day, forever? as the love I choose in every lifetime? Will You Marry Me 💍? 🕊️
+    </p>
+
+
+    <div style="margin-top: 20px;">
+      <input type="text" id="responseInput" placeholder="Type Yes or No..." style="padding: 8px; border-radius: 8px;">
+      <button class="btn" onclick="handleProposal()">Submit</button>
+	   <p style="color: grey; font-style: italic; font-size: 0.7em;">
+      If <strong>Yes</strong> — next surprise awaits.🎁 If <strong>No</strong> — the page will close.💔
+    </p>
+    </div> 
+  </div>
 </div>
 
+<script>
+   const countdownElement = document.getElementById('countdown');
+  const countdownMsg = document.getElementById('countdownMsg');
+  const proposalContent = document.getElementById('proposalContent');
+  const proposalTitle = document.getElementById('proposalTitle');
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const targetDate = new Date("July 23, 2025 00:00:00").getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+      proposalTitle.innerText = "Happy sixth love anniversay 💖💍 My Love ";
+      countdownMsg.style.display = "none";
+      proposalContent.style.display = "block";
+      clearInterval(countdownInterval);
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownElement.innerHTML = `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s left`;
+  }
+
+  const countdownInterval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+ 
+  // Skip countdown (for testing)
+  function showProposal() {
+    proposalTitle.innerText = "Happy sixth love anniversay💖💍 My Love";
+    proposalContent.style.display = "block";
+    countdownMsg.style.display = "none";
+  }
+  function handleProposal() {
+  const response = document.getElementById('responseInput').value.trim().toLowerCase();
+  
+  if (response === "yes") {
+    document.body.innerHTML = `
+      <div class="screen love-bg" style="display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
+        <h2 style="color:white;">I love you so much, my queen 👑</h2>
+        <p style="color:white; margin-top: 10px;">You've just entered my heart forever ❤️</p>
+        <button class="btn" style="margin-top: 20px;" onclick="goTo('story3')">Enter to My Heart</button>
+      </div>
+    `;
+  } else if (response === "no") {
+    document.body.innerHTML = `
+      <div class="screen love-bg" style="display:flex; align-items:center; justify-content:center; flex-direction:column;">
+        <h2 style="color: white;">Thank you for being part of this story 💔</h2>
+        <p style="color: white;">The page will now close...</p>
+      </div>
+    `;
+    setTimeout(() => window.close(), 4000);
+  } else {
+    alert("Please type 'Yes' or 'No'");
+  }
+}
+</script>
+
+
 <!-- Story 3: First Meet -->
-<div class="screen" id="story3">
-  <h2>Our First Meeting</h2>
-  <p>10th October 2019, Nabami night during Durga Puja — our first hug, our first photo. A moment I will never forget. 🎡</p>
-  <img src="gallery/first-meet.jpg" alt="First Meet" style="width:300px; border-radius: 15px; margin-top: 10px;"/>
+<div class="screen romantic-bg" id="story3">
+  <h2 class="slide-in">Our First Meeting</h2>
+  <p class="zoom-in">10th October 2019, Nabami night during Durga Puja — our first hug, our first photo. A moment I will never forget. 🎡</p>
+  <p class="slide-in">You know for the 1st time ever when i saw you, i was so surprised i have never imagined you look so beautiful so amazing, 
+  all the day i was looking at you. Still when i saw this pic the same feeling I got. I am still falling in love with this pic..  
+  how beautiful you are looking in this picture. I feel i am not fitting to this pic</p>
+  <img class="fade-in" src="first-meet.jpg" alt="First Meet" style="width:300px; border-radius: 15px; margin-top: 10px;"/>
   <button class="btn" onclick="goTo('story4')">Next</button>
 </div>
 
 <!-- Story 4: Saraswati Puja -->
-<div class="screen" id="story4">
-  <h2>Saraswati Puja Meetup</h2>
-  <p>Another special day — celebrating love, togetherness and blessings. Here's to all the times we met like this. 🪔</p>
-  <img src="gallery/saraswati.jpg" alt="Saraswati Puja" style="width:300px; border-radius: 15px; margin-top: 10px;"/>
+<div class="screen romantic-bg" id="story4">
+  <h2 class="slide-in">Saraswati Puja Meetup</h2>
+  <p class="zoom-in">Another special day — we met on 31st march 2020 at saraswati puja, by hiding our family, which is another feeling,
+  celebrating love, togetherness and blessings. 🪔</p>
+  <img class="fade-in" src="saraswati.jpg" alt="Saraswati Puja" style="width:200px; border-radius: 15px; margin-top: 10px;"/>
   <button class="btn" onclick="goTo('slideshow')">Next</button>
 </div>
 
+
 <!-- Slideshow -->
 <div class="slideshow screen" id="slideshow">
-  <img id="slide-img" src="gallery/digha.jpg" alt="Slide" />
+  <img id="slide-img" src="digha.jpg" alt="Slide" />
   <div class="slideshow-controls">
     <button class="btn" onclick="endSlideshow()">Skip</button>
   </div>
 </div>
 
 <!-- Final Message & Gallery -->
-<div class="screen" id="main">
-  <h2>Our Beautiful Memories Together</h2>
-  <div class="gallery">
-    <img src="gallery/digha.jpg" alt="Moment 1" />
-    <img src="gallery/photo3.jpg" alt="Moment 2" />
-	<img src="gallery/photo4.jpg" alt="Moment 2" />
-	<img src="gallery/photo5.jpg" alt="Moment 2" />
-	<img src="gallery/photo6.jpg" alt="Moment 2" />
+<div class="screen romantic-bg" id="main">
+  <h2 class="text-animated">Best Moments of Our Life❤️</h2>
+
+  <!-- Gallery Section -->
+ <div class="gallery">
+  <div class="photo" onclick="toggleCaption(this)">
+    <img src="digha1.jpg" alt="Moment 1" />
+    <div class="caption">This is our 1st outing pic, how beautiful it is, always reminds me.</div>
   </div>
-  <div class="final-message">
+ 
+  <div class="photo" onclick="toggleCaption(this)">
+    <img src="photo2.jpg" alt="Moment 2" />
+    <div class="caption">First time i put punjabi and saw durga puja with you that feels special.</div>
+  </div>
+  
+  <div class="photo" onclick="toggleCaption(this)">
+    <img src="photo3.jpg" alt="Moment 3" />
+    <div class="caption">Those days your love and care is so cute and i feel very satisfied..</div>
+  </div>
+  
+  <div class="photo" onclick="toggleCaption(this)">
+    <img src="photo4.jpg" alt="Moment 4" />
+    <div class="caption">This are the days we enjoy lot and love so much.</div>
+  </div>
+  
+      <div class="photo" onclick="toggleCaption(this)">
+    <img src="photo5.jpg" alt="Moment 5" />
+    <div class="caption">By seeing this moment i can realize those moments, soulmate vibe.</div>
+  </div>
+  
+     <div class="photo" onclick="toggleCaption(this)">
+    <img src="photo6.jpg" alt="Moment 6" />
+    <div class="caption">This is moment of pure love and affection</div>
+  </div>
+  </div>
+
+
+  <!-- Final Message -->
+  <div class="final-message text-animated">
     Thank you for being my everything. <br>
     Every moment with you is a treasure. <br>
-    I love you more every single day. 💖
+    I love you more every single day. 💖<br>
+    Forever Yours ❤️
+    <br><br>
+    <button class="btn" onclick="goTo('letter')">Next</button>
   </div>
 </div>
 
 <script>
-  const screens = ['welcome','story1','story2','story3','story4','slideshow','main'];
+function toggleCaption(photoDiv) {
+  const caption = photoDiv.querySelector('.caption');
+  const isVisible = caption.style.display === 'block';
+  
+  // Hide all captions first
+  document.querySelectorAll('.caption').forEach(c => c.style.display = 'none');
+
+  // Show this one if it was hidden
+  if (!isVisible) {
+    caption.style.display = 'block';
+  }
+}
+</script>
+
+<!-- Final Letter Screen -->
+<div class="slide" id="letter">
+  <div class="letter-wrapper">
+    <div class="letter-box">
+      <div id="typed-letter">
+        <div class="type-line">My dearest love,</div>
+        <div class="type-line">From the day we met, my life has been filled with colors I never knew existed.</div>
+        <div class="type-line">You have brought joy, laughter, and endless love into my world.</div>
+        <div class="type-line">Every smile of yours brightens even my darkest days.</div>
+        <div class="type-line">I am grateful for every moment, every hug, every kiss.</div>
+        <div class="type-line">Forever yours, with all my heart ❤️</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn" onclick="goTo('home')">Back to Home</button>
+</div>
+
+
+<!-- Navigation Screen -->
+<div class="screen nav-screen" id="home">
+  <h2>Home</h2>
+  <div class="nav-links">
+    <button onclick="goTo('welcome')">Welcome</button>
+    <button onclick="goTo('story1')">First Conversation</button>
+    <button onclick="goTo('story2')">Proposal</button>
+    <button onclick="goTo('story3')">First Meet</button>
+    <button onclick="goTo('story4')">Saraswati Puja</button>
+    <button onclick="goTo('slideshow')">Slideshow</button>
+    <button onclick="goTo('main')">Best Moments </button>
+    <button onclick="goTo('letter')">Love Letter</button>
+  </div>
+</div>
+
+<script>
+  const screens = ['welcome','story1','story2','story3','story4','slideshow','main','letter','home'];
+
   function goTo(id) {
-    screens.forEach(s => document.getElementById(s).style.display = 'none');
-    document.getElementById(id).style.display = 'flex';
-    if(id === 'slideshow') startSlideshow();
+    screens.forEach(s => {
+      const el = document.getElementById(s);
+      if (el) el.style.display = 'none';
+    });
+
+    const target = document.getElementById(id);
+    if (target) target.style.display = 'flex';
+
+	if (id === 'story1') startMessengerChat();
+    if (id === 'slideshow') startSlideshow();
+    if (id === 'letter') startTypingAnimation();
   }
 
+  let hasTyped = false;
+
+    function typeLine(line) {
+      return new Promise((resolve) => {
+        const text = line.textContent;
+        line.textContent = '';
+        line.style.opacity = 1;
+        let i = 0;
+        const speed = 50;
+
+        function typeChar() {
+          if (i < text.length) {
+            line.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeChar, speed);
+          } else {
+            resolve();
+          }
+        }
+
+        typeChar();
+      });
+    }
+
+    async function startTypingAnimation() {
+      if (hasTyped) return;
+      hasTyped = true;
+      const lines = document.querySelectorAll('#typed-letter .type-line');
+      for (const line of lines) {
+        await typeLine(line);
+        await new Promise(res => setTimeout(res, 400));
+      }
+    }
+
+  // Optional: Start from home screen
+  document.addEventListener('DOMContentLoaded', () => {
+    goTo('home');
+  });
+
+  // Slideshow Logic
   let slideIndex = 0;
-  const slides = ['gallery/digha.jpg', 'gallery/photo3.jpg', 'gallery/photo4.jpg','gallery/photo5.jpg','gallery/photo6.jpg'];
+  const slides = ['digha1.jpg', 'photo2.jpg','photo3.jpg', 'photo4.jpg','photo5.jpg','photo6.jpg'];
   const slideImg = document.getElementById('slide-img');
   let autoSlideInterval;
 
   function startSlideshow() {
-    slideImg.src = slides[0];
-    slideIndex = 1;
-    autoSlideInterval = setInterval(() => {
+    function showSlide() {
+      if (!slideImg) return;
+      slideImg.onerror = () => {
+        slideImg.src = 'https://via.placeholder.com/500x300?text=Image+not+found';
+      };
       slideImg.src = slides[slideIndex % slides.length];
       slideIndex++;
-    }, 2000);
+    }
+    showSlide();
+    autoSlideInterval = setInterval(showSlide, 2000);
   }
 
   function endSlideshow() {
@@ -229,5 +971,22 @@
     goTo('main');
   }
 </script>
+
+<footer style="
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Arial', sans-serif;
+  color: white;
+  font-size: 14px;
+  opacity: 0.95;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  pointer-events: none;
+">
+  Made with ❤️ by Anju
+</footer>
+
 </body>
 </html>
